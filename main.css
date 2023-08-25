@@ -1,0 +1,326 @@
+body{
+    background-color: white;
+}
+
+.header {
+  width: 350px;
+  height: 450px;
+  padding: 20px;
+}
+.header .headerUl { list-style: none;}
+
+.header .headerUl li:nth-child(1) {
+    color: #495560;
+    font-size: 16px;
+    opacity: 50%;
+    font-family: 'Roboto', sans-serif;
+}
+.header .headerUl li:nth-child(2) {
+    color: #EB306E;
+}
+.row{
+    display: flex;
+    justify-content: start;
+}
+.header .headerUl{
+  margin-top: 1px;
+}
+.header .logo img{
+    width: 71px;
+    height: 71px;
+}
+.header .headerUl li img{
+    width: 33px;
+    height: 33px;
+    position: relative;
+    top: 10px;
+}
+.lists{
+    color: black;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 250px;
+    margin-left: -10px;
+}
+
+
+.list {
+    position: relative;
+    margin-top: 10px;
+    width: 350px;
+    height: 42px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 8px 0 rgba(255, 255, 255, 0.899), 0 6px 20px 0 rgba(134, 133, 133, 0.19);
+
+}
+.list .checkList{
+  width: 33px;
+  height: 33px;
+  position: absolute;
+  left: 0px;
+}
+.list .btn{
+    width: 112px;
+    height: 30px;
+    background-color: #2EA5DD;
+    border-radius: 22px;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+
+
+
+.tooltip a{
+  width: 120px;
+  visibility: hidden;
+  background-color: rgb(255, 255, 255);
+  color: rgba(46, 165, 221, 1);
+  text-decoration: none;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.899), 0 6px 27px 0 rgba(134, 133, 133, 0.19);
+
+}
+
+.tooltip a::after{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: rgb(255, 255, 255) transparent transparent transparent;
+}
+
+.list .btn .vector{
+    display: inline-block;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+.list .btn p {
+    display: inline-block;
+    position: absolute;
+    left: 29px;
+    font-size: 13px;
+    top: -6px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+.list .titleProject {
+    color: #495560;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    position: absolute;
+    left: 35px;
+    margin-left: 5px;
+    font-size: 15px;
+}
+
+
+.content h3{
+    color: rgba(73, 85, 96, 1);
+    font-size: 17px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+.content .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.switch input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider::before {
+    position: absolute;
+    content: "";
+    height: 21px;
+    width: 20px;
+    left: 2px;
+    top: 1px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  input:checked + .slider {
+    background-color: #2196F3;
+
+  }
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(22px);
+    -ms-transform: translateX(17px);
+    transform: translateX(17px);
+  }
+  .slider.round {
+    border-radius: 34px;
+    width: 40px;
+    height: 24px;
+  }
+  .slider.round:before {
+    border-radius: 50%;
+  }    
+  
+
+  #switchList{
+    margin-top: 20px;
+    width: 400px;
+    height: 62px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+
+  }
+  #switchList p {
+    color: rgba(73, 85, 96, 1);
+    display: inline-block;
+    margin-top: 6px;
+    font-family: sans-serif;
+    font-size: 14px;
+  }
+  /* login */
+
+  .login-cont {
+    width: 350px;
+    height: 420px;
+    padding: 20px;
+   
+    /* box-shadow: 0px 16px 20px 8px rgba(0, 0, 0, 0.1); */
+  }
+  .login-cont img{
+    width: 80px;
+    height: 80px;
+    display: block;
+  }
+  .login-cont h2{
+    font-family: 'Roboto', sans-serif;
+    color: rgba(235, 48, 110, 1);
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 46px;
+    letter-spacing: 0em;
+    text-align: center;
+    display: block;
+    width: 400px;
+    margin-top: 10px;
+  }
+  .login-cont .row{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .login-cont form{
+    margin-top: -25px;
+  }
+  .login-cont input{
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(234, 234, 234, 1);
+    width: 200px;
+    height: 20px;
+    display: block;
+    padding: 14px 73px 14px 20px;
+    border-radius: 3px;
+    outline: none;
+    border: none;
+    margin: 10px 0 0 10px;
+
+  }
+  .signin{
+    background: rgba(46, 165, 221, 1);
+    width: 300px;
+    height: 45px;
+    border-radius: 40px;
+    box-shadow: 0px 8px 20px 0px rgba(50, 157, 255, 0.5);
+    border: none;
+    margin-left: 7px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .signin:hover{
+    cursor: pointer;
+  }
+
+.signinwithgoogle{
+    width: 300px;
+    height: 45px;
+    border-radius: 50px;
+    border: 1px;
+    gap: 10px;
+    background: linear-gradient(0deg, #ffffff, #ffffff),
+    linear-gradient(0deg, #FFFFFF, #ffffff);
+    border: 1px solid rgba(224, 224, 233, 1);
+    box-shadow: 0px 18px 30px 0px rgba(179, 174, 206, 0.11);
+    margin-left: 7px;
+    font-size: 18px;
+}
+.signinwithgoogle:hover{
+    cursor: pointer;
+}
+.donthaveanaccount{
+    font-family: Mulish;
+    font-size: 15px;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: rgba(73, 85, 96, 1);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+}
+.login-cont a{
+    color: rgba(46, 165, 221, 1);
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+
+}
+.signinwithgoogle img{
+    height:20px;
+    width: 20px; 
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    left: -5px;
+}
+
+
+.error-message{
+  margin-top: -25px;
+}

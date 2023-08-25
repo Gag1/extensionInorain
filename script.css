@@ -1,0 +1,344 @@
+
+
+.tooltip-list:nth-child(2){
+    border: 1px solid rgb(237, 233, 233);
+    border-left:none;
+    border-right: none;
+}
+
+.tooltip-list:nth-child(2){
+
+    border: 1px solid #bdc1c6;
+    border-left: none;
+    border-right: none;
+}
+
+.tooltip-lists {
+    width: 248px;
+    height: 158px;
+    background: white;
+    position: relative;
+    top: 100px;
+    border-radius: 20px;
+}
+
+.tooltip-lists p {
+    display: inline-block;
+    position: relative;
+    left: 10px;
+    font-family: "arial";
+    top: 2px;
+    font-size: 15px;
+}
+
+.tooltip-list:hover {
+    background: #ececec;
+    cursor: pointer;
+
+}
+.tooltip-list:nth-child(1){
+  border-radius: 20px 20px 0 0;
+}
+.tooltip-list:nth-child(3){
+  border-radius: 0px 0px 20px 20px;
+}
+
+.tooltip-list img {
+    position: relative;
+    top: 11px;
+    left: 11px;
+} 
+
+
+
+
+/**/
+
+
+.toolbar{
+  width: 248px;
+  height: 235px;
+  border-radius: 20px;
+  background:white;
+  box-shadow: 0px 16px 20px 8px rgba(0, 0, 0, 0.1);
+  position:fixed !important;
+  bottom:50px;
+  right:50px;
+  z-index: 999999999 !important;
+  border: none !important;
+  
+}
+
+.toolbar *{
+  border: none !important;
+}
+
+
+.toolbar .li{
+  position:relative;
+  top:-20px;
+  padding-top:6px;
+  border-top:1px solid rgba(54, 56, 83, 0.15);
+  cursor:pointer;
+
+}
+.toolbar img{
+  display:inline-block;
+  margin-left:5px;
+}
+.toolbar .li p{
+  display:inline-block;
+  margin:20px;
+  position:absolute !important;
+  top:-6px;
+}
+
+.toolbar .li:hover{
+background: #f9f9f9;
+}
+.close-btn{
+padding:10px;
+}
+.toolbar .li:nth-child(5){
+border-radius:0 0 20px 20px;
+}
+
+/**/
+
+.toursWindowParent{
+  z-index: 9999999999999999999 !important;
+  position:absolute !important;
+  bottom:100px !important;
+  right:306px !important;
+}
+
+.tours-window1 {
+  border-radius: 10px;
+  width: 470px;
+  height: 500px;
+  background: rgba(255, 255, 255, 1);
+
+}
+.tours-window1 .closeBtn{
+  margin: 10px;
+}
+
+.search-tour1{
+  width: 400px;
+  height: 35px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  margin-left: 20px;
+  padding-left: 15px;
+}
+
+.tour1{
+ padding: 10px;
+ 
+}
+.search-tour1 img{
+  width: 15px;
+  height: 15px;
+  margin-top: 6px;
+  
+
+}
+.search-tour1 input{
+  margin-left: 10px;
+  border: none;
+  background: none;
+  outline: none;
+}
+.details1{
+  display: inline-block;
+  position: relative;
+}
+
+.inner-details1{
+  margin-left: 30px;
+  display: inline-block;
+  width: 405px;
+  height: 100px;
+  box-shadow: 0px 8px 34px 10px rgba(0, 0, 0, 0.06);
+}
+.inner-details1 input{
+  padding-top: 10px;
+  position: absolute;
+  border: none;
+  outline: none;
+  background: none;
+}
+.details1 .dragdrop{
+  position: absolute;
+  top: 40px;
+  left: 5px;
+}
+
+.inner-details1 p{
+  color: rgba(164, 170, 175, 1);
+  margin-left: 10px;
+}
+.last-images{
+  position: absolute;
+  right: 5px;
+  top: 40%;
+}
+
+.tour1.dragging :where(.details1,i){
+  opacity: 0.2;
+}
+
+.toursdnd{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 400px;
+}
+
+.last-images img:nth-child(2){
+  position: relative;
+  top: 4px;
+}
+
+/**/
+
+
+.addTooltipInformation{
+  width: 300px;
+  height: 350px;
+  box-shadow: 0px 16px 20px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  z-index: 99999999999 !important;
+  background: white;
+}
+.tooltipDiv{
+  padding: 20px;
+}
+
+.tooltipDiv input{
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+  border: none;
+  outline: none;
+  border: 1px solid rgba(234, 234, 234, 1);
+  width: 240px;
+  height: 25px;
+  background-color: white;
+  color: black;
+}
+
+.tooltipDiv input::placeholder {
+  position: relative;
+  left: 4px;
+}
+
+.tooltipDiv textarea{
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+  border: none;
+  overflow: hidden;
+  outline: none;
+  resize: none;
+  width: 240px;
+  background-color: white;
+  color: black;
+}
+
+.tooltipDiv textarea::placeholder{
+  position: relative;
+  left: 4px;
+}
+
+.tooltipDiv p{
+  font-size: 14px;
+}
+.tooltipDiv button{
+  width: 115px;
+  height: 35px;
+  outline: none;
+  border: none;
+  color: white;
+  border-radius: 35px;
+  box-shadow: 0px 7.157894611358643px 17.894737243652344px 0px rgba(50, 157, 255, 0.5);
+  margin: 0 65px;
+  background: rgba(46, 165, 221, 1);
+
+}
+.bottom-images{
+  position: absolute;
+  bottom: 115px;
+  left: 30px;
+
+}
+
+.textareaDetails{
+  position: relative;
+}
+
+.canSkipImg{
+  position: relative;
+  top: 6px;
+}
+
+/*show tooltip */
+
+.notEditableElement{
+  border: none !important;
+}
+
+.showTooltipOnHover{
+  display: none;
+  position: relative;
+  left: 0;
+  top: 0;
+  color: white;
+  background: #7775FC;
+  z-index: 99999999;
+  width: 230px;
+  height: auto;
+  border-radius: 10px;
+  padding-top: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 0px 16px 20px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+.showTooltipOnHover p {
+   font-size: 13px;
+}
+
+.showTooltipOnHover::after{
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 0%;
+  margin-left: -8px;
+  border-width: 15px;
+  border-style: solid;
+  border-color: #7775FC transparent transparent transparent;
+}
+/* .showTooltipOnHover.special::after{
+  content: " ";
+  position: absolute;
+  top: 15%;
+  left: 100%; 
+  margin-top: -5px;
+  border-width: 15px;
+  border-style: solid;
+  border-color: transparent transparent transparent #7775FC;
+}
+ */
+
+.title-description{
+   padding: 10px;
+   line-height: 5px;
+}
+
+.showTooltipOnHover .description {
+   margin-top: 10px;
+   line-height: 15px;
+}
+
+.showTooltipOnHover .description h4{
+   position: relative;
+   top: 10px;
+}
