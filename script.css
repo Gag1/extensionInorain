@@ -1,33 +1,28 @@
 
 
-.tooltip-list:nth-child(2){
-    border: 1px solid rgb(237, 233, 233);
-    border-left:none;
-    border-right: none;
+
+.tooltip-lists .last-child{
+  border-radius: 5px !important;
 }
-
-.tooltip-list:nth-child(2){
-
-    border: 1px solid #bdc1c6;
-    border-left: none;
-    border-right: none;
+.tooltip-lists .removeTooltipLists{
+ margin: 3px !important;
 }
-
 .tooltip-lists {
-    width: 248px;
-    height: 158px;
+    width: 248px !important;
+    height: 203px !important;
     background: white;
-    position: relative;
-    top: 100px;
-    border-radius: 20px;
+    position: relative !important;
+    top: 100px !important;
+    border-radius: 10px;
+    color: #8f8f8f !important;
 }
 
 .tooltip-lists p {
-    display: inline-block;
-    position: relative;
-    left: 10px;
+    display: inline-block ;
+    position: relative !important;
+    left: 10px !important;
     font-family: "arial";
-    top: 2px;
+    top: 2px !important;
     font-size: 15px;
 }
 
@@ -39,14 +34,12 @@
 .tooltip-list:nth-child(1){
   border-radius: 20px 20px 0 0;
 }
-.tooltip-list:nth-child(3){
-  border-radius: 0px 0px 20px 20px;
-}
+
 
 .tooltip-list img {
-    position: relative;
-    top: 11px;
-    left: 11px;
+    position: relative !important;
+    top: 11px !important;
+    left: 11px !important;
 } 
 
 
@@ -55,15 +48,18 @@
 /**/
 
 
+
 .toolbar{
+  color: #8f8f8f !important;
+
   width: 248px;
-  height: 235px;
+  height: 230px;
   border-radius: 20px;
-  background:white;
+  background:white !important;
   box-shadow: 0px 16px 20px 8px rgba(0, 0, 0, 0.1);
   position:fixed !important;
-  bottom:50px;
-  right:50px;
+  bottom:50px !important;
+  right:50px !important;
   z-index: 999999999 !important;
   border: none !important;
   
@@ -84,11 +80,11 @@
 }
 .toolbar img{
   display:inline-block;
-  margin-left:5px;
+  margin-left:5px !important;
 }
 .toolbar .li p{
   display:inline-block;
-  margin:20px;
+  margin:20px !important;
   position:absolute !important;
   top:-6px;
 }
@@ -97,7 +93,10 @@
 background: #f9f9f9;
 }
 .close-btn{
-padding:10px;
+  position: static !important;
+  width: 34px !important;
+  cursor: pointer;
+  padding:10px;
 }
 .toolbar .li:nth-child(5){
 border-radius:0 0 20px 20px;
@@ -105,22 +104,25 @@ border-radius:0 0 20px 20px;
 
 /**/
 
-.toursWindowParent{
-  z-index: 9999999999999999999 !important;
-  position:absolute !important;
-  bottom:100px !important;
-  right:306px !important;
+.tooltipsWindowParent{
+  z-index: 9999999999999999999 ;
+  position:absolute ;
+  bottom:100px ;
+  right:306px ;
+  
 }
 
 .tours-window1 {
   border-radius: 10px;
   width: 470px;
   height: 500px;
+  border: none !important;
+  position: static !important;
   background: rgba(255, 255, 255, 1);
 
 }
 .tours-window1 .closeBtn{
-  margin: 10px;
+  margin: 10px !important;
 }
 
 .search-tour1{
@@ -155,13 +157,15 @@ border-radius:0 0 20px 20px;
 }
 
 .inner-details1{
-  margin-left: 30px;
+  margin-left: 30px !important;
   display: inline-block;
   width: 405px;
   height: 100px;
+  position: relative;
   box-shadow: 0px 8px 34px 10px rgba(0, 0, 0, 0.06);
 }
 .inner-details1 input{
+  margin-top: 40px;
   padding-top: 10px;
   position: absolute;
   border: none;
@@ -169,17 +173,18 @@ border-radius:0 0 20px 20px;
   background: none;
 }
 .details1 .dragdrop{
-  position: absolute;
+  position: absolute !important;
   top: 40px;
   left: 5px;
 }
+
 
 .inner-details1 p{
   color: rgba(164, 170, 175, 1);
   margin-left: 10px;
 }
 .last-images{
-  position: absolute;
+  position: absolute !important;
   right: 5px;
   top: 40%;
 }
@@ -187,7 +192,10 @@ border-radius:0 0 20px 20px;
 .tour1.dragging :where(.details1,i){
   opacity: 0.2;
 }
-
+.flag-img{
+  position: relative;
+  top: 12px;
+}
 .toursdnd{
   overflow-y: scroll;
   overflow-x: hidden;
@@ -203,61 +211,63 @@ border-radius:0 0 20px 20px;
 
 
 .addTooltipInformation{
-  width: 300px;
-  height: 350px;
+  width: 300px !important;
+  height: 350px !important;
   box-shadow: 0px 16px 20px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   z-index: 99999999999 !important;
   background: white;
+  margin-top: -10px !important;
 }
 .tooltipDiv{
-  padding: 20px;
+  padding: 20px !important;
 }
 
 .tooltipDiv input{
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
-  border: none;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1) !important;
+  border: none ;
   outline: none;
-  border: 1px solid rgba(234, 234, 234, 1);
-  width: 240px;
-  height: 25px;
+  border: 1px solid rgba(234, 234, 234, 1) !important;
+  width: 240px !important;
+  height: 25px !important;
   background-color: white;
   color: black;
 }
 
 .tooltipDiv input::placeholder {
-  position: relative;
-  left: 4px;
+  position: relative !important;
+  left: 4px !important;
 }
 
 .tooltipDiv textarea{
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
   border: none;
-  overflow: hidden;
+  overflow: hidden !important;
   outline: none;
   resize: none;
-  width: 240px;
+  width: 240px !important;
   background-color: white;
   color: black;
+  height: 150px !important;
 }
 
 .tooltipDiv textarea::placeholder{
-  position: relative;
-  left: 4px;
+  position: relative !important;
+  left: 4px !important;
 }
 
 .tooltipDiv p{
   font-size: 14px;
 }
-.tooltipDiv button{
-  width: 115px;
-  height: 35px;
+.tooltipDiv button {
+  width: 115px !important;
+  height: 35px !important;
   outline: none;
   border: none;
   color: white;
   border-radius: 35px;
   box-shadow: 0px 7.157894611358643px 17.894737243652344px 0px rgba(50, 157, 255, 0.5);
-  margin: 0 65px;
+  margin: 0 65px !important;
   background: rgba(46, 165, 221, 1);
 
 }
@@ -311,7 +321,7 @@ border-radius:0 0 20px 20px;
   position: absolute;
   top: 10%;
   left: 0%;
-  margin-left: -8px;
+  margin-left: -8px !important;
   border-width: 15px;
   border-style: solid;
   border-color: #7775FC transparent transparent transparent;
@@ -341,4 +351,7 @@ border-radius:0 0 20px 20px;
 .showTooltipOnHover .description h4{
    position: relative;
    top: 10px;
+}
+.bottom-images{
+  display: none;
 }

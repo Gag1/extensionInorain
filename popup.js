@@ -114,7 +114,10 @@ form.addEventListener('submit',(e) =>{
 
 let userEmailFromLocalStorage = localStorage.getItem('user-email')
 userEmail.innerHTML = userEmailFromLocalStorage;
-
+const signup = document.querySelector('.signup');
+signup.onclick = () =>{
+  window.open('http://product-gid-web.inorain.com/')
+}
 const signOut = document.querySelector('.signOutBtn');
 signOut.addEventListener('click',(e) =>{
   localStorage.removeItem("login-token");
@@ -122,11 +125,7 @@ signOut.addEventListener('click',(e) =>{
   loginCont.style.display = "block";
   localStorage.setItem('extension-enabled',false);
 
-  // chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs){
-  //   chrome.tabs.sendMessage(tabs[0].id, { action: 'extensionDisableWhenUserLoggedOut', enabled:false});
-  //   enableExtension.checked = false;
-  // })
-
+ 
 
 })
 
