@@ -13,35 +13,39 @@ const arrowTop = chrome.runtime.getURL("content-img/arrow-top.png");
 const gallery = chrome.runtime.getURL("content-img/gallery.png");
 const play = chrome.runtime.getURL("content-img/play.png");
 const toolb = document.createElement("div");
-toolb.classList.add("toolbar");
+toolb.classList.add("product-gid-toolbar");
 
-if (enabledExtParsed) {
-  changeBackgroundColor(enabledExtParsed);
-} else {
-  changeBackgroundColor(enabledExtParsed);
+const loginTokenContentParsed = localStorage.getItem('login-token-content')
+if(loginTokenContentParsed){
+ changeBackgroundColor();
+ if(!enabledExtParsed){
+   getTooltipsAndShow();
+ }
 }
+
+
 
 // creating div for tooltip's title and description request
 function makeTooltipRequestIncludingHtmlCode() {
   const addTooltipInformation = document.createElement("div");
-  addTooltipInformation.classList.add("addTooltipInformation");
+  addTooltipInformation.classList.add("product-gid-addTooltipInformation");
 
   const tooltipDiv = `
-    <div class="tooltipDiv" >
-      <img class="closeTooltipDiv" src="${closePng}" >
-      <input class="tooltipDivInput" placeholder="Title" type="text" >
+    <div class="product-gid-tooltipDiv" >
+      <img class="product-gid-closeTooltipDiv" src="${closePng}" >
+      <input class="product-gid-tooltipDivInput" placeholder="Title" type="text" >
       <br> <br>
-      <div class="tooltipDivTextarea" class="textareaDetails">
-      <textarea class="tooltipTextarea" placeholder="Description" name="" id="" cols="30" rows="10"></textarea>
-       <div class="bottom-images">
+      <div class="product-gid-tooltipDivTextarea" class="product-gid-textareaDetails">
+      <textarea class="product-gid-tooltipTextarea" placeholder="Description" name="" id="" cols="30" rows="10"></textarea>
+       <div class="product-gid-bottom-images">
        /*
-          <img class="tooltipDivGalery"  src="${play}">
-          <img class="tooltipDivVideo" src="${gallery}">
+          <img class="product-gid-tooltipDivGalery"  src="${play}">
+          <img class="product-gid-tooltipDivVideo" src="${gallery}">
           */
        </div>
       </div>
       <br>
-      <button class="saveTooltipBtn"> Save </button>
+      <button class="product-gid-saveTooltipBtn"> Save </button>
   </div>
   `;
   // <p class="canSkipBtn"> <img class="canSkipImg" src="${arrowTop}"> Can Skip </p>
@@ -49,37 +53,26 @@ function makeTooltipRequestIncludingHtmlCode() {
   addTooltipInformation.style.display = "none";
   addTooltipInformation.innerHTML = tooltipDiv;
   document.body.appendChild(addTooltipInformation);
-  const closeTooltipDiv = document.querySelector(".closeTooltipDiv");
+  const closeTooltipDiv = document.querySelector(".product-gid-closeTooltipDiv");
   closeTooltipDiv.addEventListener("click", () => {
     addTooltipInformation.style.display = "none";
   });
 }
 
-function getTooltipTitleAndDescription() {
-  const loginTokenContent = localStorage.getItem("login-token-content");
-
-  return fetch(
-    "https://product-gid-api.inorain.com/admin/tooltip/getToolTips",
-    {
-      method: "GET",
-      headers: { authorization: `Bearer ${loginTokenContent}` },
-    }
-  ).then((res) => res.json());
-}
 
 // toursWindowParent --- tooltips from backend
 function openTooltipsIncludingHtmlCode() {
   const tooltipsWindowParent = document.createElement("div");
-  tooltipsWindowParent.classList.add("tooltipsWindowParent");
+  tooltipsWindowParent.classList.add("product-gid-tooltipsWindowParent");
   tooltipsWindowParent.style.display = "none";
   const dndDiv = `
-  <div class="tours-window1">
-  <img class="closeBtn" src="${closePng}" alt="">
-  <div class="search-tour1">
+  <div class="product-gid-tours-window1">
+  <img class="product-gid-closeBtn" src="${closePng}" alt="">
+  <div class="product-gid-search-tour1">
       <img src="${search}" alt="">
-      <input class="tours-search-input" placeholder="Search tour" type="text">
+      <input class="product-gid-tours-search-input" placeholder="Search tour" type="text">
   </div>
-  <div class="toursdnd">
+  <div class="product-gid-toursdnd">
     
     </div>
   </div>
@@ -87,22 +80,32 @@ function openTooltipsIncludingHtmlCode() {
   tooltipsWindowParent.innerHTML = dndDiv;
   document.body.appendChild(tooltipsWindowParent);
 
-  const toursdnd = document.querySelector(".toursdnd");
+  const toursdnd = document.querySelector(".product-gid-toursdnd");
 
-  getTooltipTitleAndDescription().then((res) => {
-    
+  const loginTokenContent = localStorage.getItem("login-token-content");
+  const currentUrl = window.location.href;
+  console.log(`login token is ---> ${loginTokenContent}`);
+  fetch(
+    `https://product-gid-api.inorain.com/admin/tooltip?url=${currentUrl}`,
+    {
+      method: "GET",
+      headers: { authorization: `Bearer ${loginTokenContent}` },
+    }
+  ).then((res) => res.json()).then((res) =>{
+
+    if(!res.rows) return
+    toursdnd.innerHTML = ""
     for (let i = 0; i < res.rows.length; i++) {
       const tour1 = document.createElement("div");
-      tour1.classList.add("tour1");
+      tour1.classList.add("product-gid-tour1");
       tour1.innerHTML = `
-        <div class="details1">
-        <img class="dragdrop" src="${dragdrop}" alt="">
-                <div class="inner-details1">
-                <img class="flag-img" src="${flag}" alt="">
-                <input disabled class="tours-input" type="text" value="${res.rows[i].description}">
-                <div class="last-images">
-                    <img class="edit" src="${pen}" alt="">
-                    <img class="remove" src="${closePng}" alt="">
+        <div class="product-gid-details1">
+                <div class="product-gid-inner-details1">
+                <img class="product-gid-flag-img" src="${flag}" alt="">
+                <input disabled class="product-gid-tours-input" type="text" value="${res.rows[i].description}">
+                <div class="product-gid-last-images">
+                    <img class="product-gid-edit" src="${pen}" alt="">
+                    <img class="product-gid-remove" src="${closePng}" alt="">
                 </div>
             </div>
         </div>
@@ -112,45 +115,46 @@ function openTooltipsIncludingHtmlCode() {
   
 
   tooltipsWindowParent.style.display = "none";
- 
-  const cloeseBtn = document.querySelector(".closeBtn");
- 
-  cloeseBtn.addEventListener("click", () => {
-    tooltipsWindowParent.style.display = "none";
-   
-  });
+
+  const closeBtn = document.querySelector(".product-gid-closeBtn");
+  if(closeBtn){
+    closeBtn.addEventListener("click", () => {
+      tooltipsWindowParent.style.display = "none";
+     
+    });
+  }
+
 
   // drag and drop logic
 
-  const sortableList = document.querySelector(".toursdnd");
-  const tour = sortableList.querySelectorAll(".tour1");
-
+  const sortableList = document.querySelector(".product-gid-toursdnd");
+  const tour = sortableList.querySelectorAll(".product-gid-tour1");
+  if(tour)
   tour.forEach((t) => {
+      t.draggable = true;
     t.addEventListener("dragstart", () => {
       setTimeout(() => {
-        t.classList.add("dragging");
-        
+        t.classList.add("product-gid-dragging");
       }, 0);
     });
-    t.addEventListener("dragend", () => t.classList.remove("dragging"));
+    t.addEventListener("dragend", () => t.classList.remove("product-gid-dragging"));
   });
 
   const initSortableList = (e) => {
     e.preventDefault();
-    const draggingItem = sortableList.querySelector(".dragging");
-    const ab = [...sortableList.querySelectorAll(".tour1:not(.dragging)")];
+    const draggingItem = sortableList.querySelector(".product-gid-dragging");
+    const ab = [...sortableList.querySelectorAll(".product-gid-tour1:not(.product-gid-dragging)")];
     let a = ab.find((item) => {
       return e.clientY <= item.offsetTop + item.offsetHeight / 2;
     });
-
-    sortableList.insertBefore(draggingItem, a);
+   sortableList.insertBefore(draggingItem, a);
   };
 
   sortableList.addEventListener("dragover", initSortableList);
 
-  const removeBtn = document.querySelectorAll(".last-images .remove");
-  const editBtn = document.querySelectorAll(".last-images .edit");
-  const input = document.querySelectorAll(".tour1 input");
+  const removeBtn = document.querySelectorAll(".product-gid-last-images .product-gid-remove");
+  const editBtn = document.querySelectorAll(".product-gid-last-images .product-gid-edit");
+  const input = document.querySelectorAll(".product-gid-tour1 input");
 
   let disabled = true;
   for (let i = 0; i < tour.length; i++) {
@@ -162,94 +166,103 @@ function openTooltipsIncludingHtmlCode() {
       disabled = !disabled;
     });
   }
-
-  let closeDndLists = document.querySelector(".closeBtn");
+});
+  let closeDndLists = document.querySelector(".product-gid-closeBtn");
   if (closeDndLists) {
     closeDndLists.addEventListener("click", () => {
       tooltipsWindowParent.style.display = "none";
     });
   }
-});
+
   /////////////////////////////////////
 }
 
+
+
+// <img class="product-gid-close-btn" src="${play}">
 function actionBarIncludingHtmlCode() {
   const contentOfToolbar = `
+  <div class="product-gid-container">
+  <label class="product-gid-switch" for="checkbox">
+    <input type="checkbox" class="product-gid-checkbox" id="checkbox" />
+    <div class="product-gid-slider product-gid-round"></div>
+  </label>
+</div>
 
- <img class="close-btn" style="cursor:pointer; width:34px;" src="${play}">
- <div class="lis">
+ <div class="product-gid-lis">
  <br>
-  <div class="li first-li">
-      <img class="img-li" src="${flag}">
-      <p class="p-li">Tours</p>
+  <div class="product-gid-li product-gid-first-li">
+      <img class="product-gid-img-li" src="${flag}">
+      <p class="product-gid-p-li">Tours</p>
   </div>
-  <div class="li second-li">
-      <img class="img-li" src="${formKit}" >
-      <p class="p-li">Tooltips</p>
+  <div class="product-gid-li product-gid-second-li">
+      <img class="product-gid-img-li" src="${formKit}" >
+      <p class="product-gid-p-li">Tooltips</p>
   </div>
-  <div class="li">
-      <img class="img-li" src="${sla}" >
-      <p class="p-li">Add Grabbers</p>
+  <div class="product-gid-li">
+      <img class="product-gid-img-li" src="${sla}" >
+      <p class="product-gid-p-li">Add Grabbers</p>
   </div>
-  <div class="li">
-      <img class="img-li" src="${js}">
-      <p class="p-li">JS Documentation</p>
+  <div class="product-gid-li">
+      <img class="product-gid-img-li" src="${js}">
+      <p class="product-gid-p-li">JS Documentation</p>
   </div>
 </div>
 `;
   toolb.innerHTML = contentOfToolbar;
   document.body.appendChild(toolb);
+  toolb.style.display = "block";
+  
 
-  const secondLi = toolb.querySelector(".lis .second-li");
-
-  secondLi.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const tooltipsWindowParentForClick = document.querySelector(".tooltipsWindowParent");
-    tooltipsWindowParentForClick.style.display = "block";
-
-   
-  });
+  
 }
 
-function onclickOpenPopup(left, top, width, tooltip) {
-  tooltip.style.position = "absolute";
-  tooltip.style.zIndex = 9999998;
-  tooltip.style.cursor = "pointer";
-  document.body.appendChild(tooltip);
-  tooltip.style.display = "none";
+
+
+
+
+
+
+function onclickOpenPopup(left, top, width, onClickPopup) {
+  onClickPopup.style.position = "absolute";
+  onClickPopup.style.zIndex = 9999998;
+  onClickPopup.style.cursor = "pointer";
+  document.body.appendChild(onClickPopup);
+  onClickPopup.style.display = "none";
+  let scrTop = document.documentElement.scrollTop;
 
   const tooltipElements = `
   
-    <div class="tooltip-lists">
-    <img class="removeTooltipLists" src="${closePng}">
-      <div class="tooltip-list addTooltipClickBtn">
+    <div class="product-gid-tooltip-lists">
+    <img class="product-gid-removeTooltipLists" src="${closePng}">
+      <div class="product-gid-tooltip-list product-gid-addTooltipClickBtn">
           <img src="${formKit}">
           <p>Add tool tip </p>
       </div>
-      <div class="tooltip-list">
+      <div class="product-gid-tooltip-list">
           <img src="${flag}">
           <p>Mark as tour item </p>
       </div>
-      <div class="tooltip-list last-child">
+      <div class="product-gid-tooltip-list product-gid-last-child">
           <img src="${sla}">
           <p>Add attention grabber</p>
       </div>
   </div>
 `;
-  tooltip.innerHTML = tooltipElements;
+  onClickPopup.innerHTML = tooltipElements;
 
-  document.body.appendChild(tooltip);
+  document.body.appendChild(onClickPopup);
 
-  const addTooltipClickBtn = document.querySelector(".addTooltipClickBtn");
+  const addTooltipClickBtn = document.querySelector(".product-gid-addTooltipClickBtn");
   addTooltipClickBtn.addEventListener("click", () => {
-    const pos = tooltip.getBoundingClientRect();
-    const cont = document.querySelector(".addTooltipInformation");
+    const pos = onClickPopup.getBoundingClientRect();
+    const cont = document.querySelector(".product-gid-addTooltipInformation");
     cont.style.display = "inline-block";
     cont.style.position = "absolute";
     if(pos.top > 250 && pos.top < 400){
       cont.style.display = "block";
       cont.style.left = pos.left + 60 + "px";
-      cont.style.top = pos.top - 200 + "px";
+      cont.style.top = pos.top + scrTop - 200 + "px";
       if(pos.left > 1000){
         cont.style.left = pos.left - 300 + "px";
       }
@@ -257,7 +270,7 @@ function onclickOpenPopup(left, top, width, tooltip) {
     }else if(pos.top > 400){
       cont.style.display = "block";
       cont.style.left = pos.left + 60 + "px";
-      cont.style.top = pos.top - 200 + "px";
+      cont.style.top = pos.top + scrTop - 200 + "px";
       if(pos.left > 1000){
         cont.style.left = pos.left - 300 + "px";
       }
@@ -266,21 +279,12 @@ function onclickOpenPopup(left, top, width, tooltip) {
     if(pos.left > 1000){
       cont.style.display = "block";
       cont.style.left = pos.left - 250 + "px";
-      cont.style.top = pos.top + 30 + "px";
+      cont.style.top = pos.top + scrTop + 30 + "px";
       return
     }
     cont.style.display = "block";
     cont.style.left = pos.left + 30 + "px";
-    cont.style.top = pos.top + 50 + "px";
-
-
-
-
-
-
-
-
-
+    cont.style.top = pos.top + scrTop + 50 + "px";
 
 
 
@@ -288,61 +292,87 @@ function onclickOpenPopup(left, top, width, tooltip) {
   });
 }
 
+
+
+
 // the main function that controls almost everything
-function changeBackgroundColor(enabled) {
+function changeBackgroundColor() {
   actionBarIncludingHtmlCode();
   openTooltipsIncludingHtmlCode();
   makeTooltipRequestIncludingHtmlCode();
+ 
+  let currentElement;
+
+  function setNoneSpecificElements(){
+    let tooltipsWindowParent = document.querySelector('.product-gid-tooltipsWindowParent');
+    let actionBar = document.querySelector('.product-gid-tool3Tip');
+    let addTooltipInformation = document.querySelector('.product-gid-addTooltipInformation');
+    if(tooltipsWindowParent) tooltipsWindowParent.style.display = "none";
+
+    actionBar.style.display = "none";
+    addTooltipInformation.style.display = "none";
+   if(currentElement)  currentElement.style.border = "none";
+
+  }
+
+  let endMouseOver = true;
+  let endMouseOver2 = true;
+  const checkbox = document.getElementById('checkbox');
+  if(checkbox){
+
+    checkbox.addEventListener('click',(e) =>{
+      localStorage.setItem('enabledExt',e.target.checked)
+      let value = !e.target.checked;
+      endMouseOver = value;
+      endMouseOver2 = value;
+      if(value){
+        setNoneSpecificElements();
+        getTooltipsAndShow()
+      }
+    })
+  }
+
   
-  const hideBarBtn = document.querySelector(".close-btn");
-  hideBarBtn.addEventListener("click", () => {
-    removeElementsHTML();
-    discard();
+  const firstLi = document.querySelector('.product-gid-second-li');
+  firstLi.addEventListener('click',(e) =>{
+    const tooltipsWindowParentForClick = document.querySelector(".product-gid-tooltipsWindowParent");
+    if(tooltipsWindowParentForClick){
+      tooltipsWindowParentForClick.style.display = "block";
+     
+    }
+    endMouseOver2 = true;
+    addTooltipInformation.style.display = "none";
+    onClickPopup.style.display = "none";
   });
-
-  function discard() {
-    return (document.onmouseover = null);
-  }
-
-  if (!enabled) {
-    discard();
-    return;
-  }
+  
 
 
 
   document.onmouseover = (e) => handleMouseOver(e);
 
-  const coverDiv = document.createElement("div");
-  coverDiv.classList.add("cover3Div");
-  document.body.appendChild(coverDiv);
 
-  const tooltip = document.createElement("div");
-  tooltip.classList.add("tool3Tip");
+  const onClickPopup = document.createElement("div");
+  onClickPopup.classList.add("product-gid-tool3Tip");
 
   let firstTarget;
-  let endMouseOver = false;
-  let endMouseOver2 = false;
-  let endMouseOver3 = false;
-  let endMouseOver4 = false;
 
   let bool = false;
   let bool2 = false;
   let bool3 = false;
   let _currentTargetElement;
 
-  const tooltipDivInput = document.querySelector(".tooltipDivInput");
-  const tooltipTextarea = document.querySelector(".tooltipTextarea");
+  const tooltipDivInput = document.querySelector(".product-gid-tooltipDivInput");
+  const tooltipTextarea = document.querySelector(".product-gid-tooltipTextarea");
 
-  const saveTooltipBtn = document.querySelector(".saveTooltipBtn");
-  const addTooltipInformation = document.querySelector(".addTooltipInformation");
+  const saveTooltipBtn = document.querySelector(".product-gid-saveTooltipBtn");
+  const addTooltipInformation = document.querySelector(".product-gid-addTooltipInformation");
 
   saveTooltipBtn.addEventListener("click", () => {
     addTooltipInformation.style.display = "none";
     const contentLoginToken = localStorage.getItem("login-token-content");
     const currentUrl = window.location.href;
     const hashCode = hashElementCoordinates(_currentTargetElement);
-    fetch("https://product-gid-api.inorain.com/admin/tooltip/addToolTip", {
+    fetch("https://product-gid-api.inorain.com/admin/tooltip", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -354,15 +384,22 @@ function changeBackgroundColor(enabled) {
         page_url: currentUrl,
         node_id: hashCode,
       }),
-    }).then(() => {
+    }).then((res) => {
       tooltipDivInput.value = "";
       tooltipTextarea.value = "";
-      //getTooltipsAndShow();
-    });
+       getTooltipsAndShow();
+        return res.json()
+    }).then((res) =>{
+      console.log(res);
+      openTooltipsIncludingHtmlCode();
+    })
   });
 
+ 
+
   function handleMouseOver(e) {
-    if (endMouseOver || endMouseOver2 || endMouseOver3 || endMouseOver4) return;
+
+    if (endMouseOver || endMouseOver2 ) return;
 
     e.defaultPrevented = true;
 
@@ -370,7 +407,7 @@ function changeBackgroundColor(enabled) {
     bool2 = false;
     bool3 = false;
 
-    const toolbarCheckWhetherHover = document.querySelector(".toolbar");
+    const toolbarCheckWhetherHover = document.querySelector(".product-gid-toolbar");
 
     if (toolbarCheckWhetherHover) {
       const classlist = e.target.classList[0];
@@ -381,13 +418,12 @@ function changeBackgroundColor(enabled) {
       }
     }
 
-    const showTooltipOnHover = document.querySelectorAll(".showTooltipOnHover");
+    const showTooltipOnHover = document.querySelectorAll(".product-gid-showTooltipOnHover");
     showTooltipOnHover.forEach((f) => {
       f.style.display = "none";
     });
 
-    // collecting special elements
-    const toursWindow = document.querySelector(".tours-window1");
+    const toursWindow = document.querySelector(".product-gid-tours-window1");
     if (toursWindow) {
       const classlist = e.target.classList[0];
       if (toursWindow.querySelector(`.${classlist}`)) {
@@ -395,7 +431,7 @@ function changeBackgroundColor(enabled) {
       }
     }
     const addTooltipInformation = document.querySelector(
-      ".addTooltipInformation"
+      ".product-gid-addTooltipInformation"
     );
     if (addTooltipInformation) {
       const classlist = e.target.classList[0];
@@ -403,28 +439,13 @@ function changeBackgroundColor(enabled) {
         bool3 = true;
       }
     }
-
+    
     animation();
-    function animation() {
-      //    setTimeout(() => {
-      function coverDivIncludingHtmlCode() {
-        coverDiv.style.left = 0;
-        coverDiv.style.top = 0;
-        coverDiv.style.position = "absolute";
-        coverDiv.style.background = "black";
-        coverDiv.style.width = "1920px";
-        coverDiv.style.height = "auto";
-        coverDiv.style.opacity = 0.5;
-        coverDiv.style.zIndex = 9999;
-        coverDiv.style.overflow = "hidden";
 
-        document.body.style.overflowX = "hidden";
-        coverDiv.style.boxSizing = "border-box";
-      }
-      coverDivIncludingHtmlCode();
+    function animation() {
+    //    coverDiv.style.height = document.documentElement.scrollTop + document.body.clientHeight + "px";;
 
       if (firstTarget && firstTarget !== e.target) {
-        coverDiv.style.display = "none";
         firstTarget.style = null;
       }
 
@@ -436,157 +457,180 @@ function changeBackgroundColor(enabled) {
         positionTarget.left,
         positionTarget.top,
         positionTarget.width,
-        tooltip
+        onClickPopup
       );
 
-      //
+      
 
       // if (e.target === tooltip) return;
       //   if(e.target === toursWindow || e.target === tooltipsWindowParent) return;
-      tooltip.style.left = positionTarget.left + "px";
-      tooltip.style.top = positionTarget.top - 200 + "px";
+      let scrTop = document.documentElement.scrollTop;
+
+      onClickPopup.style.left = positionTarget.left + "px";
+      onClickPopup.style.top =  positionTarget.top + scrTop- 200 + "px";
+
       if (positionTarget.top >= document.body.clientHeight - 200) {
-        tooltip.style.top = positionTarget.top - 300 + "px";
+        onClickPopup.style.top = positionTarget.top +scrTop - 300 + "px";
       }
       if (positionTarget.left >= document.body.clientWidth - 200) {
-        tooltip.style.left = positionTarget.left - 250 + "px";
+        onClickPopup.style.left = positionTarget.left - 250 + "px";
       }
       if (positionTarget.top < 100) {
-        tooltip.style.top = positionTarget.top + 30 + "px";
+        onClickPopup.style.top = positionTarget.top + scrTop + 30 + "px";
       }
 
-      e.target.style.border = "1px solid green";
-      e.target.style.zIndex = 9999999;
-      e.target.style.position = "relative";
 
-      coverDiv.style.display = "block";
+      //  e.target.style.border = "1px solid white";
+  
+      //  e.target.style.zIndex = 9999999999999;
+      //  e.target.style.position = "static";
 
-      let toursInputs = document.querySelectorAll(".tours-input");
+      if (e.target.childNodes.length === 0) { 
+        console.log("no child ");
+      }
+
+
+      let toursInputs = document.querySelectorAll(".product-gid-tours-input");
       for (let i = 0; i < toursInputs.length; i++) {
         toursInputs[i].style.position = "static";
       }
 
-      //console.log(bool);
 
       if (bool2 || bool3 || bool) {
         e.target.style.border = "none";
       }
 
-      //tooltip.style.display = "none";
-      let clicked = false;
-      e.target.onclick = (ev) => {
-        ev.stopPropagation();
-        ev.preventDefault();
-        e.stopPropagation();
-        e.preventDefault();
-        clicked = !clicked;
+
+       if (!e.target.className.includes("product-gid")) {
+        e.target.style.boxShadow = "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px";
+        e.target.style.transition = "0.7s";
+       }
+        
+  
+      // if(e.target.onclick !== null){
+
+      //   console.log(123321);
+      //  }
+      
+
+        let clicked = false;
+        //console.log(e.target.innerText);
+        e.target.onclick = (ev) => {
+        if (!ev.target.className.includes("product-gid")) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          currentElement = ev.target;
+        }
+   
+        clicked = !clicked; 
         if (!bool && !bool2 && !bool3) {
-          tooltip.style.display = "block";
-          tooltip.style.zIndex = 999999999999;
+          onClickPopup.style.display = "block";
+          onClickPopup.style.zIndex = 999999999999;
           endMouseOver = clicked;
           _currentTargetElement = e;
-        
-        
         }
       };
+    
       
-      // tool3Tip
-      tooltip.onclick = () => {
-        tooltip.remove();
+      onClickPopup.onclick = (e) => {
+        
+        onClickPopup.remove();
          endMouseOver = false;
          
       };
      
-      const addTooltipClickBtn = document.querySelector('.addTooltipClickBtn');
+      const addTooltipClickBtn = document.querySelector('.product-gid-addTooltipClickBtn');
       addTooltipClickBtn.addEventListener('click',() => endMouseOver2 = true);
 
-      const closeTooltipDiv = document.querySelector('.closeTooltipDiv');
+      const closeTooltipDiv = document.querySelector('.product-gid-closeTooltipDiv');
       closeTooltipDiv.addEventListener('click', () => endMouseOver2 = false);
 
-      const saveTooltipBtn = document.querySelector('.saveTooltipBtn');
+      const saveTooltipBtn = document.querySelector('.product-gid-saveTooltipBtn');
       saveTooltipBtn.addEventListener('click',() => endMouseOver2 = false);
 
-      const firstLi = document.querySelector('.second-li');
-      firstLi.addEventListener('click',() =>{
-        endMouseOver2 = true;
-        addTooltipInformation.style.display = "none";
-        tooltip.style.display = "none";
-      });
+      const closeBtn = document.querySelector('.product-gid-closeBtn');
+      if(closeBtn){
+        closeBtn.addEventListener('click',() =>{
+          endMouseOver2 = false;
+     
+       });
+      }
       
-      const closeBtn = document.querySelector('.closeBtn');
-      closeBtn.addEventListener('click',() =>{
-        endMouseOver2 = false;
-        endMouseOver = false;
-      });
-
-      // }, 300);
     }
 
-    e.target.id = "removeStyle";
+    e.target.id = "product-gid-removeStyle";
   }
+  
 }
 
+
 function removeElementsHTML() {
-  const tool3tip = document.querySelector(".tool3Tip");
-  const cover3Div = document.querySelector(".cover3Div");
-  const tooltipsWindowParent = document.querySelector(".tooltipsWindowParent");
-  const removeStyle = document.querySelectorAll("#removeStyle");
+  const tool3tip = document.querySelector(".product-gid-tool3Tip");
+  const cover3Div = document.querySelector(".product-gid-cover3Div");
+  const tooltipsWindowParent = document.querySelector(".product-gid-tooltipsWindowParent");
+  const removeStyle = document.querySelectorAll("#product-gid-removeStyle");
+  const productGidToolbar = document.querySelector('.product-gid-toolbar');
+
   for (let i = 0; i < removeStyle.length; i++) {
-    if ((removeStyle[i].style.border = "1px solid green")) {
+    if ((removeStyle[i].style.border = "1px solid white")) {
       removeStyle[i].style = null;
     }
   }
   // xaytarakutyun dzel sa ...
-  if (tool3tip !== null) {
+  if (tool3tip !== null ) {
     tool3tip.remove();
   }
   if (cover3Div !== null) {
     cover3Div.remove();
   }
-  if (toolbar !== null) {
-    toolbar.remove();
-  }
   if (tooltipsWindowParent !== null) {
     tooltipsWindowParent.remove();
   }
-}
-const toolbar = document.querySelector(".toolbar");
-//getTooltipsAndShow();
-
-if (!enabledExtParsed && toolbar) {
-  toolbar.style.display = "none";
+  if(productGidToolbar !== null){
+    productGidToolbar.remove()
+  }
 }
 
-// make requests to popup js
+
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  localStorage.setItem("enabledExt", request.enabled);
-  const toolbar = document.querySelector(".toolbar");
-  toolbar.style.display = "block";
-   changeBackgroundColor();
-  if (request.token) {
+  
+
+  if(request.action === "loggedIn"){
+    console.log('logged In');
     localStorage.setItem("login-token-content", request.token);
+    localStorage.setItem('enabledExt',false)
+   
+    changeBackgroundColor();
+
   }
-  if (request.action === "extensionDisabled") {
+
+  if(request.action === "loggedOut"){
+    console.log('logged out');
+    localStorage.removeItem("login-token-content");
+    localStorage.removeItem("enabledExt");
     removeElementsHTML();
+
   }
-
-  // if(request.action === 'extensionDisableWhenUserLoggedOut'){
-  //   localStorage.removeItem('login-token-content');
-
-  //   removeElementsHTML();
-
-  // }
+  
 });
+
+
+
 
 function getTooltipsAndShow() {
   const loginTokenContent = localStorage.getItem("login-token-content");
-
+  
   if (!loginTokenContent) return;
+  const currentUrl = window.location.href;
 
-  fetch("https://product-gid-api.inorain.com/admin/tooltip/getToolTips", {
+  let query = JSON.stringify({limit:100});
+  
+
+  fetch(`https://product-gid-api.inorain.com/admin/tooltip?url=${currentUrl}&query=${query}`, {
     method: "GET",
     headers: { authorization: `Bearer ${loginTokenContent}` },
+
   })
     .then((res) => res.json())
     .then((res) => {
@@ -594,61 +638,90 @@ function getTooltipsAndShow() {
     });
 }
 
-function showTooltipWhenHover(res, field) {
+function tooltipCreator(res, field) {
+   
   res.rows.forEach((element, i) => {
+    let scrTop = document.documentElement.scrollTop;
+
     if(!field[i]) return;
-    const elementPosition = field[i].getBoundingClientRect();
-    const showTooltipOnHover = document.createElement("div");
-    showTooltipOnHover.classList.add("showTooltipOnHover");
-    showTooltipOnHover.style.position = "absolute";
-    showTooltipOnHover.style.left =
-      elementPosition.left + elementPosition.width + "px";
-    showTooltipOnHover.style.top =
-      elementPosition.top + elementPosition.height + "px";
+   
+    const cont = document.createElement("div");
+    cont.classList.add("product-gid-showTooltipOnHover");
+    cont.style.position = "fixed";
+    cont.style.boxShadow = "rgb(141 141 141 / 26%) 0px 16px 20px 8px";
 
-    showTooltipOnHover.classList.toggle("special2");
+    cont.classList.toggle("product-gid-special2");
+    field[i].addEventListener("mouseover", () => { 
+    
+      let pos = field[i].getBoundingClientRect();
+      const tooltipRects = {
+        width: 250,
+        height: 100,
+        marginX: 10,
+        marginY: 10,
+        align: "center"
+      }
 
-    if (elementPosition.top >= document.body.clientHeight - 200) {
-      showTooltipOnHover.style.top = elementPosition.top - 100 + "px";
-      showTooltipOnHover.classList.toggle("special2");
-    }
-    if (elementPosition.left >= document.body.clientWidth - 200) {
-      showTooltipOnHover.style.left = elementPosition.left - 300 + "px";
-    }
-    if (elementPosition.top < 100) {
-      showTooltipOnHover.style.top = elementPosition.top + 40 + "px";
-    }
+        const isTop = pos.top < screen.height / 2
+        const isLeft = pos.left < screen.width / 2
+
+        let left;
+        let top;
+
+        if (isTop && isLeft) { // 2
+          top = pos.top + pos.height + tooltipRects.marginY
+          left = pos.left + tooltipRects.marginX
+        }
+        else if (isTop && !isLeft) { // 1
+          top = pos.top + pos.height + tooltipRects.marginY
+          left = pos.left  - tooltipRects.width + tooltipRects.marginX
+        }
+        else if (!isTop && isLeft) { // 3
+          top = pos.top - tooltipRects.height - tooltipRects.marginY
+          left = pos.left + tooltipRects.marginX
+        }
+        else if (!isTop && !isLeft) { // 4
+          top = pos.top - tooltipRects.height - tooltipRects.marginY
+          left = pos.left + tooltipRects.marginX - tooltipRects.width
+        }
+        cont.style.display = "block";
+        cont.style.top = top + "px"
+        cont.style.left = left + "px"
+        cont.style.width = tooltipRects.width + "px"
+        cont.style.height = tooltipRects.height + "px"
+
+  
 
     const tooltipTitleDescription = `
-        <div class="title-description">
-            <div class="description">
+    
+        <div class="product-gid-title-description">
+            <div class="product-gid-description">
               <p> ${element.description} </p>
             </div>
-              <div class="title" >
+            <br><br>
+              <div class="product-gid-title" >
                 <h3>${element.name}</h3>
             </div>
         </div>
     `;
-    showTooltipOnHover.innerHTML = tooltipTitleDescription;
-    document.body.appendChild(showTooltipOnHover);
-
-    field[i].style.zIndex = "999999999999";
-    field[i].addEventListener("mouseover", () => {
-      showTooltipOnHover.style.display = "block";
+    cont.innerHTML = tooltipTitleDescription;
+    document.body.appendChild(cont);
+  
+     field[i].style.zIndex = "999999999999999";
+  
+      cont.style.display = "block";
     });
 
     field[i].addEventListener("mouseleave", () => {
-      setTimeout(() => {
-        showTooltipOnHover.style.display = "none";
-      }, 1000);
+        cont.style.display = "none";
+     
     });
   });
-  //  
+  
 }
 
 function hashElementCoordinates(event) {
   // event.x event.y
-
   const coordinates = event.target.getBoundingClientRect();
   const x1 = coordinates.left;
   const y1 = coordinates.top;
@@ -656,29 +729,29 @@ function hashElementCoordinates(event) {
   let codeIndex = null;
   let codeClass = null;
   let hashCode = null;
-  if (event.target.className) {
-    const className = event.target.className;
+
+  if (event.target.classList.length > 0 ) {
+    const className = event.target.classList[0];
     attributes = document.querySelectorAll(`.${className}`);
     codeClass = className;
-    console.log("class");
   } else {
     const tagName = event.target.tagName;
     attributes = document.querySelectorAll(`${tagName}`);
     codeClass = tagName;
-    console.log("tag");
+ 
   }
 
-  attributes.forEach((el, i) => {
-    const coordinates = el.getBoundingClientRect();
-    let x = coordinates.left;
-    let y = coordinates.top;
+  attributes.forEach((attribute, i) => {
+    const attributeCoordinates = attribute.getBoundingClientRect();
+    let x = attributeCoordinates.left;
+    let y = attributeCoordinates.top;
 
     if (x1 === x && y1 === y) {
       codeIndex = i;
     }
   });
   hashCode = codeClass + "/" + codeIndex;
-
+  // console.log(codeIndex);
   return hashCode;
 }
 
@@ -686,22 +759,26 @@ function decodeElementCoordinates(res) {
   let fields;
   let index;
   let arrOfHtmlElements = [];
+  if(!res.rows) return;
   res.rows.forEach((element, i) => {
     let attribute = element.node_id.split("/")[0];
     index = element.node_id.split("/")[1];
-
     fields = document.querySelectorAll(`.${attribute}`);
     const isClass = fields.length > 0;
 
     if (!isClass) {
+      
       fields = document.getElementsByTagName(attribute);
+      // if(fields.length == 0){
+      //   console.log(attribute,"attribute");
+      // };
     }
-    //console.log(fields[index]);
 
+  
     if (!fields[index]) return;
 
     arrOfHtmlElements.push(fields[index]);
   });
-
-  showTooltipWhenHover(res, arrOfHtmlElements);
+  console.log(res,arrOfHtmlElements);
+  tooltipCreator(res, arrOfHtmlElements);
 }

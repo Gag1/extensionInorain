@@ -1,34 +1,20 @@
-// const tooltipA = document.querySelectorAll('.tooltip a')
-// const tooltipBtn = document.querySelectorAll('.btn')
-// let bool = false;
 
-// for (let i = 0; i < tooltipBtn.length; i++) {
-//   tooltipBtn[i].addEventListener("mouseover",(e) =>{
-//     if(!bool){
-//       tooltipA[i].style.visibility = "visible";
-//     }else if(bool){
-//       tooltipA[i].style.visibility = "hidden";
 
-//     }
-//     bool = !bool;
 
-//   })
-// }
 
 function getProducts(){
   const token = localStorage.getItem('login-token')
 
-  fetch('https://product-gid-api.inorain.com/admin/products/getProduct',{
+  fetch('https://product-gid-api.inorain.com/admin/products',{
     method:'GET',
     headers: {'authorization':`Bearer ${token}`}
   }).then((res) => res.json())
    .then((res) =>{
-    let titleProject = document.querySelectorAll('.titleProject');
     let lists = document.querySelector('.lists');
-    console.log(res)
       if(res){
-        lists.innerHTML = ""
+        lists.innerHTML = "";
        let products = res.rows;
+       if(!products) return;
        products.forEach(product => {
         let div = `
         <div class="list">
@@ -63,10 +49,6 @@ function getProducts(){
 }
 
 
-
-
-
-
 const loginCont = document.querySelector('.login-cont');
 const form = document.querySelector('.login-cont form');
 const username = form.querySelector('.username');
@@ -76,9 +58,15 @@ header.style.display = "none";
 
 const loginToken = localStorage.getItem("login-token");
 if(loginToken){
+
+  sendCurrentTabUrl();
+  getProducts()
   header.style.display = "block";
   loginCont.style.display = "none";
 }
+
+
+
 const errorMessage = document.querySelector('.error-message');
 let userEmail = document.querySelector('.userEmail');
 
@@ -98,11 +86,16 @@ form.addEventListener('submit',(e) =>{
   localStorage.setItem('user-email',username.value)
     if(res.token){
       userEmail.innerHTML = username.value;
-      console.log(userEmail);
-      sendCurrentTabUrl();
       localStorage.setItem("login-token",res.token);
+      sendCurrentTabUrl();
+      // getProducts();
+      chrome.extension.getViews({type: 'popup'}).forEach(v => v.close());
       loginCont.style.display = "none";
       header.style.display = "block";
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { action: 'loggedIn',enabled:true,token:res.token });
+      });
+
     return
     }
     errorMessage.innerHTML = res;
@@ -119,29 +112,18 @@ signup.onclick = () =>{
   window.open('http://product-gid-web.inorain.com/')
 }
 const signOut = document.querySelector('.signOutBtn');
+
 signOut.addEventListener('click',(e) =>{
-  localStorage.removeItem("login-token");
-  header.style.display = "none";
-  loginCont.style.display = "block";
-  localStorage.setItem('extension-enabled',false);
 
- 
-
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { action: 'loggedOut',enabled:false });
+  })
+  
+    localStorage.removeItem("login-token");
+    header.style.display = "none";
+    loginCont.style.display = "block";
+    localStorage.setItem('extension-enabled',false);
 })
-
-const enableExtension = document.getElementById('enableExtension');
-const extensionEnabledValue = JSON.parse(localStorage.getItem('extension-enabled'))
-
-if(extensionEnabledValue === null ){
-  enableExtension.checked = false;
-}else{
-  enableExtension.checked = extensionEnabledValue;
-}
-
-getProducts();
-
-sendCurrentTabUrl()
-
 
 
 function sendCurrentTabUrl(){
@@ -149,40 +131,20 @@ function sendCurrentTabUrl(){
   (tabs) {
       let url = tabs[0].url;
       let hostname = new URL(url).hostname;
-
+      console.log(url);
       if(loginToken){
-        fetch('https://product-gid-api.inorain.com/admin/products/createProduct',{
+        fetch('https://product-gid-api.inorain.com/admin/products',{
           method:"POST",
           body:JSON.stringify({url:url,
             name:hostname}),
           headers:{'authorization':`Bearer ${loginToken}`,'content-type':'application/json'}
-        }).then(() =>{
-          getProducts();
+        }).then((res) => res.json()).then((res) =>{
+            console.log(res);
+            getProducts();
         })
         
       }
   });
-  
-  
- 
 }
 
 
-
-enableExtension.addEventListener ('click', function (e) {
-    localStorage.setItem('extension-enabled',e.target.checked);
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      if(e.target.checked){
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'extensionEnabled',enabled:true,token:localStorage.getItem('login-token') });
-
-         sendCurrentTabUrl();
-      }else{
-        chrome.tabs.sendMessage(tabs[0].id, { action: 'extensionDisabled', enabled:false});
-     
-      }
-      });
-  
- 
-});
-
-if(enableExtension) enableExtension.checked = extensionEnabledValue;
